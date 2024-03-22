@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "https://movie-management-system-crud-1234.onrender.com/api/v1/user/login",
+        "http://localhost:8001/api/v1/user/login",
         {
           email: email,
           password: password,

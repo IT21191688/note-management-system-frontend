@@ -6,6 +6,9 @@ import NavBar from "./components/NavBar";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import { ToastContainer } from "react-toastify";
+import UserHomePage from "./components/UserHomePage";
+import AddNotePage from "./components/AddNotePage";
+import EditNotePage from "./components/EditNotePage";
 
 function App() {
   const [user, setUser] = useState<string | null>(null);
@@ -24,7 +27,11 @@ function App() {
         </Router>
       ) : user === "user" ? (
         <Router>
-          <Routes></Routes>
+          <Routes>
+            <Route path="/userHome" element={<UserHomePage />} />
+            <Route path="/AddNotePage" element={<AddNotePage />} />
+            <Route path="/EditNotePage" element={<EditNotePage />} />
+          </Routes>
         </Router>
       ) : null}
 

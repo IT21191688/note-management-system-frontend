@@ -11,7 +11,11 @@ export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
   }, []);
 
   const logOut = () => {
@@ -39,7 +43,7 @@ export default function NavBar() {
               {isLoggedIn ? (
                 <>
                   <li className="nav-item">
-                    <a className="nav-link" href="/dashboard">
+                    <a className="nav-link" href="/userHome">
                       Dashboard
                     </a>
                   </li>
