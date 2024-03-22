@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "./services/AlertService";
@@ -9,6 +9,7 @@ const AddNotePage = () => {
   const [content, setContent] = useState("");
   const [documentFile, setDocumentFile] = useState<File | null>(null);
   const [reminderDate, setReminderDate] = useState<Date | null>(null);
+  const [category, setCategory] = useState("general");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -21,15 +22,14 @@ const AddNotePage = () => {
       }
 
       const formData = new FormData();
-      formData.append("category", "reminder");
+      formData.append("category", category);
       formData.append("title", title);
       formData.append("content", content);
       if (documentFile) {
         formData.append("document", documentFile);
       }
 
-      alert(reminderDate);
-      if (reminderDate) {
+      if (reminderDate && category === "reminder") {
         formData.append("reminders[date]", reminderDate.toISOString());
         formData.append("reminders[status]", "pending");
       }
@@ -66,6 +66,23 @@ const AddNotePage = () => {
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4"
         >
+          <div className="mb-4">
+            <label
+              htmlFor="category"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="general">General</option>
+              <option value="reminder">Reminder</option>
+            </select>
+          </div>
           <div className="mb-4">
             <label
               htmlFor="title"
@@ -126,7 +143,10 @@ const AddNotePage = () => {
               type="datetime-local"
               id="reminderDate"
               onChange={(e) => setReminderDate(new Date(e.target.value))}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                category !== "reminder" ? "bg-gray-300" : ""
+              }`}
+              disabled={category !== "reminder"}
             />
           </div>
           <div className="flex items-center justify-between">
@@ -138,7 +158,7 @@ const AddNotePage = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/userHome")}
               className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Cancel

@@ -30,7 +30,7 @@ function App() {
           <Routes>
             <Route path="/userHome" element={<UserHomePage />} />
             <Route path="/AddNotePage" element={<AddNotePage />} />
-            <Route path="/EditNotePage" element={<EditNotePage />} />
+            <Route path="/EditNotePage/:noteId" element={<EditNotePage />} />
           </Routes>
         </Router>
       ) : null}

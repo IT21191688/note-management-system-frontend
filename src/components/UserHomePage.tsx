@@ -100,7 +100,7 @@ const UserHomePage = () => {
                 </div>
                 <div className="p-4 bg-gray-100 flex justify-end">
                   <Link
-                    to={`/edit-note/${note._id}`}
+                    to={`/EditNotePage/${note._id}`}
                     className="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 transition duration-300 ease-in-out"
                   >
                     Edit
