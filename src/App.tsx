@@ -14,35 +14,30 @@ function App() {
   const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
-    setUser(localStorage.getItem("role") ? localStorage.getItem("role") : "");
-  });
+    setUser(localStorage.getItem("role") || null);
+  }, []);
+
   return (
-    <>
-      <NavBar />
-      <ToastContainer />
+    <Router>
+      <div>
+        <NavBar />
+        <ToastContainer />
 
-      {user === "admin" ? (
-        <Router>
-          <Routes></Routes>
-        </Router>
-      ) : user === "user" ? (
-        <Router>
-          <Routes>
-            <Route path="/userHome" element={<UserHomePage />} />
-            <Route path="/AddNotePage" element={<AddNotePage />} />
-            <Route path="/EditNotePage/:noteId" element={<EditNotePage />} />
-          </Routes>
-        </Router>
-      ) : null}
-
-      <Router>
         <Routes>
+          {user === "admin" && <Route path="/" element={<UserHomePage />} />}
+          {user === "user" && (
+            <>
+              <Route path="/userHome" element={<UserHomePage />} />
+              <Route path="/AddNotePage" element={<AddNotePage />} />
+              <Route path="/EditNotePage/:noteId" element={<EditNotePage />} />
+            </>
+          )}
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
-      </Router>
-    </>
+      </div>
+    </Router>
   );
 }
 
