@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { showErrorToast } from "./services/AlertService";
-import moment from "moment";
+import { showErrorToast, showSuccessToast } from "./services/AlertService";
 
 const UserHomePage = () => {
   const [notes, setNotes] = useState([]);
@@ -22,7 +21,7 @@ const UserHomePage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        "http://localhost:8001/api/v1/note/getAllNotes",
+        "https://note-management-system-backend-3.onrender.com/api/v1/note/getAllNotes",
         { headers }
       );
       setNotes(response.data.data);
@@ -42,17 +41,31 @@ const UserHomePage = () => {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-      await axios.delete(`/api/notes/${noteId}`, { headers });
-      setNotes(notes.filter((note: any) => note._id !== noteId));
+      await axios.delete(
+        `https://note-management-system-backend-3.onrender.com/api/v1/note/deleteNote/${noteId}`,
+        { headers }
+      );
+
+      showSuccessToast("Delete Success");
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting note:", error);
       showErrorToast("Error deleting note");
     }
   };
 
-  function moment(date: any) {
-    throw new Error("Function not implemented.");
-  }
+  const getStatusColor = (status: any) => {
+    switch (status) {
+      case "pending":
+        return "text-white bg-green-500"; // Green color for pending
+      case "duetoday":
+        return "text-white bg-orange-500"; // Orange color for due today
+      case "expired":
+        return "text-white bg-red-500"; // Red color for expired
+      default:
+        return "text-gray-500 bg-gray-200"; // Default gray color
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col sm:py-12">
@@ -89,15 +102,16 @@ const UserHomePage = () => {
                       </a>
                     </p>
                   )}
-                  {note.reminders && (
-                    <p className="text-gray-500 mb-4">
-                      Reminder:{" "}
-                      {/* {moment(note.reminders.date).format(
-          "MMMM Do YYYY, h:mm a"
-        )} */}
-                    </p>
-                  )}
                 </div>
+                {note.reminders && (
+                  <h4
+                    className={`mb-2 ml-5 mr-5 ${getStatusColor(
+                      note.reminders.status
+                    )} border-2 rounded-lg px-4 py-2 text-center`}
+                  >
+                    {note.reminders.status}
+                  </h4>
+                )}
                 <div className="p-4 bg-gray-100 flex justify-end">
                   <Link
                     to={`/EditNotePage/${note._id}`}

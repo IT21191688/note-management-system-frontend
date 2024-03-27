@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { showErrorToast, showSuccessToast } from "./services/AlertService";
@@ -27,12 +27,13 @@ const EditNotePage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://localhost:8001/api/v1/note/getOneNote/` + noteId,
+        `https://note-management-system-backend-3.onrender.com/api/v1/note/getOneNote/` +
+          noteId,
         { headers }
       );
       const { title, content, category, reminders } = response.data.data;
 
-      alert(title);
+      // alert(title);
       setTitle(title);
       setContent(content);
       setCategory(category);
@@ -74,7 +75,7 @@ const EditNotePage = () => {
       };
 
       await axios.post(
-        `http://localhost:8001/api/v1/note/updateNote/${noteId}`,
+        `https://note-management-system-backend-3.onrender.com/api/v1/note/updateNote/${noteId}`,
         formData,
         {
           headers,
@@ -192,7 +193,7 @@ const EditNotePage = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/userHome")}
               className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Cancel

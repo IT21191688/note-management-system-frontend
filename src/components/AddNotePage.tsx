@@ -39,8 +39,9 @@ const AddNotePage = () => {
         "Content-Type": "multipart/form-data",
       };
 
+      //https://note-management-system-backend-3.onrender.com
       await axios.post(
-        "http://localhost:8001/api/v1/note/createNote",
+        "https://note-management-system-backend-3.onrender.com/api/v1/note/createNote",
         formData,
         {
           headers,

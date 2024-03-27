@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8001/api/v1/user/login",
+        "https://note-management-system-backend-3.onrender.com/api/v1/user/login",
         {
           email: email,
           password: password,
